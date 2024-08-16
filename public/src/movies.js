@@ -18,7 +18,6 @@ function fetchMovies() {
             originalMovies = [...allMovies];  // Save the original order
             populateGenreNav(data);
             populateMovies(allMovies);  // Initially populate movies using allMovies
-            fetchUsers();  // Fetch and populate user data
         })
         .catch(error => console.error('Error loading the movies:', error));
 }
@@ -47,31 +46,6 @@ function populateGenreNav(movies) {
             getSortFunction();
         };
         genreNav.appendChild(button);
-    });
-}
-
-function fetchUsers() {
-    fetch('users.json')  // Assuming you have a users.json file with the user data
-        .then(response => response.json())
-        .then(data => {
-            users = data;
-            populateUserDropdown();
-        })
-        .catch(error => console.error('Error loading user data:', error));
-}
-
-function populateUserDropdown() {
-    const userSelect = document.getElementById('userSelect');
-    users.forEach((user, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = user.name;  // Assuming users have a 'name' field
-        userSelect.appendChild(option);
-    });
-
-    userSelect.addEventListener('change', function() {
-        selectedUser = users[this.value];
-        populateMovies(allMovies);  // Repopulate movies with the selected user's ratings
     });
 }
 
