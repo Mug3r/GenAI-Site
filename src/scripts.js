@@ -82,10 +82,22 @@ function loadUser(index) {
 
 function updateLinks(userIndex) {
     const links = document.querySelectorAll('#mySidenav a');
+
     links.forEach(link => {
-        link.href += `?user=${userIndex}`;
+        // Parse the existing URL
+        const url = new URL(link.href);
+
+        // Remove any existing 'user' search parameters
+        url.searchParams.delete('user');
+
+        // Append the new 'user' parameter
+        url.searchParams.append('user', userIndex);
+
+        // Update the href attribute
+        link.href = url.toString();
     });
 }
+
 
 function highlightCurrentPage(currentPage) {
     const links = document.querySelectorAll('#mySidenav a');
