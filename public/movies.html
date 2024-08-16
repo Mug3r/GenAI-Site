@@ -24,25 +24,43 @@
     <a href="recommendations.html" id="recommendationsLink">Recommendations</a>
 </div>
 
+<!-- Header Container for Title and Logout Card -->
+<div class="header-container">
+    <!-- Title Card -->
+    <div class="card text-center card-title-container" style="font-family: 'Roboto', sans-serif; border-radius: 15px;">
+        <div class="card-body">
+            <h1 class="card-title">Movie List</h1>
+        </div>
+    </div>
+
+    <!-- Logout and User Card -->
+    <div class="card text-center logout-card" style="font-family: 'Roboto', sans-serif; border-radius: 15px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <span id="userGreeting" style="margin-right: 10px;">Hi, User</span>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
 <div class="container">
-    <h1>Movie List</h1>
-    <div id="genreNav" class="btn-group">
-        <!-- Genre buttons including 'All' will be populated here -->
+    <!-- Genre Ribbon and Movie List Card -->
+    <div class="card movie-card" style="border-radius: 15px;">
+        <div class="card-body">
+            <div id="genreNav" class="btn-group mb-3">
+                <!-- Genre buttons including 'All' will be populated here -->
+            </div>
+            <div id="genreHeading" class="genre-heading">All Movies</div>
+            <ul id="movieList" class="list-group movie-list">
+                <li class="movie-header">
+                    <div id="titleSort">Title <span></span></div>
+                    <div id="yearSort">Year <span></span></div>
+                    <div id="scoreSort">Rating <span></span></div>
+                    <div id="userRatingSort">User Rating <span></span></div>
+                </li>
+                <!-- Movie items will be populated here -->
+            </ul>
+        </div>
     </div>
-    <div class="logout-container">
-        <span id="userGreeting" style="margin-right: 10px;">Hi, User</span>
-        <button class="btn btn-danger" onclick="logout()">Logout</button>
-    </div>
-    <div id="genreHeading" class="genre-heading">All Movies</div>
-    <ul id="movieList" class="list-group movie-list">
-        <li class="movie-header">
-            <div onclick="sortList('title')">Title <span id="titleSort"></span></div>
-            <div onclick="sortList('year')">Year <span id="yearSort"></span></div>
-            <div onclick="sortList('score')">Rating Audience / (Critic) <span id="scoreSort"></span></div>
-            <div onclick="sortList('userRating')">User Rating <span id="userRatingSort"></span></div>
-        </li>
-        <!-- Movie items will be populated here -->
-    </ul>
 </div>
 
 <script src="src/scripts.js"></script>

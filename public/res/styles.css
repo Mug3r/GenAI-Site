@@ -3,6 +3,9 @@ body {
     background-color: black;
     color: #ffffff;
     transition: margin-left 0.4s ease, opacity 0.4s ease;
+    height: 100vh; /* Ensure the body takes up the full height of the viewport */
+    display: flex;
+    flex-direction: column;
 }
 
 body.menu-open {
@@ -120,23 +123,87 @@ body.fade-out .main-content {
     background-color: #d2b48c;
     margin: 7px 0;
 }
-
-
-/* Movie List and Header */
-.movie-list {
-    display: none;
-    margin-top: 20px;
-    list-style-type: none;
-    padding: 0;
+/* Header Container for Title and Logout Card */
+.header-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: 15px;
 }
 
-.movie-item, .movie-header {
-    display: grid;
-    grid-template-columns: 40% 15% 25% 20%;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(249, 226, 226, 0.1);
-    border-radius: 5px;
+.card-title-container {
+    flex-direction: row;
+    flex-grow: 0.9; /* Allow the title card to grow and fill the available space */
+    margin-right: 15px;
+}
+
+.logout-card {
+    min-width: 10%; /* Adjust as necessary */
+    max-width: 25%; /* Adjust as necessary */
+}
+
+/* Centered Titles and Headers */
+.card-title, .genre-heading {
+    text-align: center;
+    margin: 0; /* Remove any margin to ensure it takes full width */
+}
+
+/* Movie List Container */
+.container {
+    padding-top: 0px;
+    padding-left: 15px; /* Bring the content closer to the left */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow the container to grow and fill the available space */
+}
+
+.card {
+    margin-left: 15px; /* Adjust the margin-left value to bring it closer to the left */
+    margin-top: 15px;
+    margin-bottom: 0px;
+    max-width: 100%; /* Adjust as necessary */
+}
+
+.card.movie-card {
+    flex-grow: 1; /* Allow the movie card to take up the remaining vertical space */
+    display: flex;
+    flex-direction: column;
+}
+
+.card.movie-card .card-body {
+    flex-grow: 1; /* Allow the card body to fill the card */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    margin-left: 0px;
+}
+
+.btn-group {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.movie-list {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Movie List and Header */
+.movie-header, .movie-item {
+    display: flex;
+    justify-content: space-around;
     align-items: center;
+    text-align: center;
+}
+
+.movie-header div, .movie-item div {
+    flex: 1;
+    padding: 10px;
+}
+
+.movie-item {
+    border-top: 1px solid #ddd;
 }
 
 .movie-header {
@@ -145,7 +212,7 @@ body.fade-out .main-content {
     cursor: pointer;
 }
 
-.movie-details, .movie-year, .movie-ratings {
+.movie-details, .movie-year {
     text-align: left;
 }
 
@@ -173,7 +240,7 @@ body.fade-out .main-content {
 /* Genre Heading */
 .genre-heading {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
 }
 

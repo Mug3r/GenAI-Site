@@ -4,7 +4,10 @@ let currentSortState = '';  // Start with no sort state
 let users = [];  // Array to store user profiles
 let selectedUser = null;  // Currently selected user
 
-document.addEventListener('DOMContentLoaded', fetchMovies);
+document.addEventListener('DOMContentLoaded', function() {
+    fetchMovies();
+    addEventListeners();  // Adding event listeners on page load
+});
 
 function fetchMovies() {
     fetch('movies.json')
@@ -29,43 +32,52 @@ function populateGenreNav(movies) {
     const allButton = document.createElement('button');
     allButton.classList.add('btn', 'btn-outline-secondary');
     allButton.textContent = 'All';
-    allButton.onclick = () => {
+    allButton.addEventListener('click', function() {
         populateMovies(allMovies);
         toggleMovieListVisibility(true);
-    };
+    });
     genreNav.appendChild(allButton);
     genres.forEach(genre => {
         const button = document.createElement('button');
         button.classList.add('btn', 'btn-outline-primary');
         button.textContent = genre;
-        button.onclick = () => {
+        button.addEventListener('click', function() {
             const filteredMovies = allMovies.filter(movie => movie.Genre === genre);
             populateMovies(filteredMovies);
             toggleMovieListVisibility(true);
             document.getElementById('genreHeading').textContent = genre;
             getSortFunction();
-        };
+        });
         genreNav.appendChild(button);
     });
 }
 
 function populateMovies(movies) {
     const movieList = document.getElementById('movieList');
-    const header = movieList.querySelector('.movie-header');
+    const header = document.querySelector('.movie-header').cloneNode(true); // Clone the header
+
     movieList.innerHTML = '';
-    movieList.appendChild(header);
+    movieList.appendChild(header); // Re-append the header
+
+    // Reattach event listeners to the sorting headers
+    addEventListeners();
+
     movies.forEach(movie => {
         const movieItem = document.createElement('li');
         movieItem.classList.add('list-group-item', 'movie-item');
+
         const movieTitle = document.createElement('div');
         movieTitle.textContent = movie.Title;
+
         const movieYear = document.createElement('div');
         movieYear.textContent = movie.Year;
+
         const movieRatings = document.createElement('div');
         const scoresDisplay = (currentSortState.includes('audience')) ?
             `<span class="rating-primary">${movie.ratingAudience}</span> / <span class="rating-secondary">(${movie.ratingCritic})</span>` :
             `<span class="rating-primary">${movie.ratingCritic}</span> / <span class="rating-secondary">(${movie.ratingAudience})</span>`;
         movieRatings.innerHTML = scoresDisplay;
+
         const userRating = document.createElement('div');
         if (selectedUser) {
             const userMovieRating = selectedUser.ratings[movie.Title] || '';
@@ -73,10 +85,29 @@ function populateMovies(movies) {
         } else {
             userRating.textContent = '';
         }
+
         movieItem.append(movieTitle, movieYear, movieRatings, userRating);
         movieList.appendChild(movieItem);
     });
+
     updateSortingIndicators();
+}
+
+
+
+function addEventListeners() {
+    document.getElementById('titleSort').addEventListener('click', function() {
+        sortList('title');
+    });
+    document.getElementById('yearSort').addEventListener('click', function() {
+        sortList('year');
+    });
+    document.getElementById('scoreSort').addEventListener('click', function() {
+        sortList('score');
+    });
+    document.getElementById('userRatingSort').addEventListener('click', function() {
+        sortList('userRating');
+    });
 }
 
 function sortList(type) {
@@ -109,7 +140,6 @@ function sortList(type) {
     }
     populateMovies(allMovies);
 }
-
 
 function getSortFunction(sortState) {
     switch (sortState) {
@@ -155,27 +185,25 @@ function getUserRating(movie) {
     return -Infinity;  // Treat unrated movies as the lowest value for sorting purposes
 }
 
-
 function updateSortingIndicators() {
-    document.getElementById('titleSort').textContent = currentSortState.includes('title') ? (currentSortState.endsWith('Asc') ? '↑' : '↓') : '';
-    document.getElementById('yearSort').textContent = currentSortState.includes('year') ? (currentSortState.endsWith('Asc') ? '↑' : '↓') : '';
+    document.getElementById('titleSort').textContent = currentSortState.includes('title') ? (currentSortState.endsWith('Asc') ? 'Title ↑' : 'Title ↓') : 'Title';
+    document.getElementById('yearSort').textContent = currentSortState.includes('year') ? (currentSortState.endsWith('Asc') ? 'Year ↑' : 'Year ↓') : 'Year';
 
     if (currentSortState.includes('audience') || currentSortState.includes('critic')) {
         document.getElementById('scoreSort').textContent = currentSortState.includes('audience') ? 
-            (currentSortState.endsWith('Asc') ? 'Audience ↑ / (Critic)' : 'Audience ↓ / (Critic)') :
-            (currentSortState.endsWith('Asc') ? 'Critic ↑ / (Audience)' : 'Critic ↓ / (Audience)');
+            (currentSortState.endsWith('Asc') ? 'Rating Audience ↑ / (Critic)' : 'Rating Audience ↓ / (Critic)') :
+            (currentSortState.endsWith('Asc') ? 'Rating Critic ↑ / (Audience)' : 'Rating Critic ↓ / (Audience)');
     } else {
-        document.getElementById('scoreSort').textContent = 'Audience / (Critic)';
+        document.getElementById('scoreSort').textContent = 'Rating Audience / (Critic)';
     }
 
     if (currentSortState.startsWith('userRating')) {
         document.getElementById('userRatingSort').textContent = 
-            currentSortState.endsWith('Asc') ? '↑' : '↓';
+            currentSortState.endsWith('Asc') ? 'Your Rating ↑' : 'Your Rating ↓';
     } else {
-        document.getElementById('userRatingSort').textContent = '';
+        document.getElementById('userRatingSort').textContent = 'Your Rating';
     }
 }
-
 
 function toggleMovieListVisibility(show) {
     const movieList = document.getElementById('movieList');
