@@ -35,6 +35,68 @@ function loadUser(index) {
         .catch(error => console.error('Error loading user data:', error));
 }
 
+// Function to load and display the user's watch history
+function loadWatchHistory(userIndex) {
+    fetch('users.json')
+        .then(response => response.json())
+        .then(users => {
+            const selectedUser = users[userIndex];
+            const watchHistoryContainer = document.getElementById('watchHistoryContainer');
+
+            // Load movies data
+            fetch('movies.json')
+                .then(response => response.json())
+                .then(movies => {
+                    const watchHistory = selectedUser.ratings;
+                    const moviesByGenre = {};
+
+                    // Group movies by genre
+                    for (const [title, rating] of Object.entries(watchHistory)) {
+                        const movieDetails = movies.find(movie => movie.Title === title);
+                        if (movieDetails) {
+                            const genre = movieDetails.Genre || 'Unknown';
+                            if (!moviesByGenre[genre]) {
+                                moviesByGenre[genre] = [];
+                            }
+                            moviesByGenre[genre].push({
+                                title: movieDetails.Title,
+                                genre: genre,
+                                rating: rating,
+                                details: movieDetails
+                            });
+                        }
+                    }
+
+                    // Sort movies within each genre by user rating
+                    for (const genre in moviesByGenre) {
+                        moviesByGenre[genre].sort((a, b) => b.rating - a.rating);
+                    }
+
+                    // Display the movies, grouped by genre
+                    for (const genre in moviesByGenre) {
+                        const genreHeader = document.createElement('h2');
+                        genreHeader.className = 'genre-heading';
+                        genreHeader.textContent = genre;
+                        watchHistoryContainer.appendChild(genreHeader);
+
+                        moviesByGenre[genre].forEach(movie => {
+                            const movieItem = document.createElement('div');
+                            movieItem.className = 'movie-item';
+
+                            movieItem.innerHTML = `
+                                <div class="movie-details">${movie.title}</div>
+                                <div class="user-rating">${movie.rating}</div>
+                            `;
+
+                            watchHistoryContainer.appendChild(movieItem);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error loading movies data:', error));
+        })
+        .catch(error => console.error('Error loading user data:', error));
+}
+
 // Function to update the links in the side nav with the correct user parameter
 function updateLinks(userIndex) {
     const links = document.querySelectorAll('#mySidenav a');
@@ -78,6 +140,48 @@ function disableLinks() {
 function enableLinks() {
     document.querySelectorAll('.side-nav a').forEach(link => {
         link.style.pointerEvents = 'auto';
+    });
+}
+
+// Function to load and display movie recommendations
+function loadMovieRecommendations() {
+    const movieRecommendations = [
+        {
+            title: "Inception",
+            synopsis: "A thief who steals corporate secrets through the use of dream-sharing technology...",
+            genre: "Sci-Fi, Thriller",
+            rating: "8.8/10"
+        },
+        {
+            title: "The Shawshank Redemption",
+            synopsis: "Two imprisoned men bond over a number of years, finding solace and eventual...",
+            genre: "Drama",
+            rating: "9.3/10"
+        },
+        {
+            title: "The Dark Knight",
+            synopsis: "When the menace known as the Joker emerges from his mysterious past...",
+            genre: "Action, Crime, Drama",
+            rating: "9.0/10"
+        }
+    ];
+
+    const carouselInner = document.querySelector('.carousel-inner');
+
+    movieRecommendations.forEach((movie, index) => {
+        const carouselItem = document.createElement('div');
+        carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+
+        carouselItem.innerHTML = `
+            <div>
+                <h5>${movie.title}</h5>
+                <p>${movie.synopsis}</p>
+                <div class="genre">Genre: ${movie.genre}</div>
+                <div class="rating">Rating: ${movie.rating}</div>
+            </div>
+        `;
+
+        carouselInner.appendChild(carouselItem);
     });
 }
 
@@ -158,5 +262,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (userIndex !== null) {
         loadUser(userIndex);
         updateLinks(userIndex);
+
+        // Load and display the watch history
+        loadWatchHistory(userIndex);
+    }
+
+    // Load and display the movie recommendations
+    if (currentPage === 'recommendations.html') {
+        loadMovieRecommendations();
     }
 });

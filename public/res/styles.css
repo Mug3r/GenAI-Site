@@ -123,6 +123,7 @@ body.fade-out .main-content {
     background-color: #d2b48c;
     margin: 7px 0;
 }
+
 /* Header Container for Title and Logout Card */
 .header-container {
     display: flex;
@@ -135,18 +136,14 @@ body.fade-out .main-content {
 }
 
 .card-title-container {
-    
     flex-grow: 0.9; /* Allow the title card to grow and fill the available space */
     margin-right: 20%;
     margin-left: 10%;
-    
-    
 }
 
 .logout-card {
     min-width: 10%; /* Adjust as necessary */
     max-width: 25%; /* Adjust as necessary */
-    
 }
 
 /* Centered Titles and Headers */
@@ -185,7 +182,6 @@ body.fade-out .main-content {
 }
 
 .card-body {
-    
     overflow-y: auto; /* Enable scrolling if content overflows */
     margin-left: 0px;
 }
@@ -261,4 +257,60 @@ body.fade-out .main-content {
 .btn-active {
     background-color: #007bff;
     color: white;
+}
+
+/* Carousel Styles */
+.carousel-inner {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    text-align: left;
+    height: 300px; /* Adjust this height based on your design needs */
+}
+
+.carousel-item h5 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.carousel-item p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.carousel-item .genre,
+.carousel-item .rating {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.card.bg-dark {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.card-header {
+    background-color: #444;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-body {
+    font-size: 16px;
 }

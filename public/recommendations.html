@@ -21,7 +21,7 @@
 <div id="mySidenav" class="side-nav">
     <a href="movies.html" id="moviesLink">Movie List</a>
     <a href="watch-history.html" id="historyLink">Watch History</a>
-    <a href="recommendations.html" id="recommendationsLink">Recommendations</a>
+    <a href="recommendations.html" id="recommendationsLink" class="active">Recommendations</a>
 </div>
 
 <div class="logout-container">
@@ -30,15 +30,39 @@
 </div>
 
 <div class="container" style="padding-top: 30px;">
-    <div class="card text-center shadow-sm mb-4" style="font-family: 'Roboto', sans-serif; border-radius: 15px;">
-        <div class="card-body">
-            <h1 class="card-title">Recommendations</h1>
+    <div class="row">
+        <!-- Movie Recommendations Card -->
+        <div class="col-md-8">
+            <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Movie cards will be dynamically inserted here -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#movieCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#movieCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Flavor Text Card -->
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3 shadow-sm" style="border-radius: 15px;">
+                <div class="card-header">Your Movie Guru Titles</div>
+                <div class="card-body">
+                    <p class="card-text" id="flavorText">Let your AI guide you to cinematic gems tailored to your tastes. From hidden classics to new blockbusters, your Movie Guru has you covered.</p>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Content for Recommendations will go here -->
 </div>
 
 <script src="src/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>
