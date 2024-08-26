@@ -199,6 +199,7 @@ body.fade-out .main-content {
 .movie-list {
     margin: 0 auto;
     width: 100%;
+    background-color: #111;
 }
 
 /* Movie List and Header */
